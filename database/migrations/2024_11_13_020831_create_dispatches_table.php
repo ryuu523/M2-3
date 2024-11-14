@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("event_id");
             $table->string("worker_id");
             $table->boolean("approval");
-            $table->string("memo")->nullable();
+            $table->string("memo");
             $table->timestamps();
         });
     }

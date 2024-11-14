@@ -6,5 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dispatche extends Model
 {
-    protected $fillable=["event_id","worker_id","approval","memo"];
+    protected $fillable = ["event_id", "worker_id", "approval", "memo"];
+    public function event()
+    {
+
+        return $this->belongsTo(Event::class);
+
+    }
+
+    public function worker()
+    {
+
+        return $this->belongsTo(Worker::class);
+
+    }
+
 }

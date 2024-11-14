@@ -8,5 +8,5 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Route::get('/events', ApiController::class);
-// Route::post('/events', ApiController::class);
+Route::get('/events', [ApiController::class,"get_events"]);
+Route::post('/events', [ApiController::class,"request_approval"]);

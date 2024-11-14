@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class MainController extends Controller
+class LoginController extends Controller
 {
-    public function show_login()
-    {
-        return view("login");
-    }
     public function login(Request $request)
     {
         $data = $request->validate([
@@ -21,12 +17,8 @@ class MainController extends Controller
             $request->session()->regenerate();
             return redirect()->intended("menu");
         }
-        return redirect()->route("show_login")->with("error", "メールアドレスまたはパスワードが正しくありません。");
+        return redirect()->route("login")->with("error", "メールアドレスまたはパスワードが正しくありません。");
 
-    }
-    public function menu()
-    {
-        return view("menu");
     }
 
     public function logout(Request $request)
@@ -34,7 +26,7 @@ class MainController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('show_login');
+        return redirect()->route('login');
     }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Event;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -11,7 +12,8 @@ class EventController extends Controller
      */
     public function index()
     {
-        //
+        $events = Event::all();
+        return view("events.index", compact("events"));
     }
 
     /**
@@ -19,7 +21,7 @@ class EventController extends Controller
      */
     public function create()
     {
-        //
+        return view("events.register");
     }
 
     /**
@@ -27,7 +29,19 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            "name" => "required|string",
+            "place" => "required|string",
+            "date" => "required|date",
+        ]);
+
+        Event::create([
+            "name" => $request->name,
+            "place" => $request->place,
+            "date" =>$request->date,
+        ]);
+        return redirect()->route("event.index")->with("res", "イベント情報が登録されました。");
+
     }
 
     /**
@@ -41,24 +55,39 @@ class EventController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Event $event)
     {
-        //
+        return view("events.edit", compact("event"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Event $event)
     {
-        //
+        $request->validate([
+            "name" => "required|string",
+            "place" => "required|string",
+            "date" => "required|date",
+        ]);
+
+        $event->update([
+            "name" => $request->name,
+            "place" => $request->place,
+            "date" => $request->date,
+            
+        ]);
+        return redirect()->route("event.index")->with("res", "更新成功");
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Event $event)
     {
-        //
+        $event->delete();
+        return redirect()->route("event.index")->with("res","削除成功");
+
     }
 }
